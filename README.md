@@ -108,3 +108,7 @@ The following need to be updated when ready:
 - **Hero screenshot** — replace the gray placeholder in `src/pages/index.astro` with a real product screenshot
 - **Demo URL** — `demo.opencan.dev` is hardcoded throughout; update if the domain changes
 - **GitHub URL** — `github.com/sriramgopalan/opencan` — update if the repo moves
+
+## License
+
+MIT — see [LICENSE](LICENSE) file.
