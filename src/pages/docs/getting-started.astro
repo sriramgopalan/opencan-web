@@ -1,0 +1,110 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Getting Started" description="Clone, configure, and run OpenCan with Docker Compose in under five minutes.">
+  <h1>Getting Started</h1>
+
+  <p>
+    This guide covers the fastest path to a running OpenCan instance using Docker Compose. The full stack — app, Postgres, Redis, and MinIO — starts with a single command.
+  </p>
+
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>Docker and Docker Compose (v2+)</li>
+    <li>A domain name (required for production TLS; optional for local testing)</li>
+    <li>
+      A <a href="https://resend.com" target="_blank" rel="noopener noreferrer">Resend</a> account — required for magic link login and email verification
+    </li>
+    <li>Google and/or GitHub OAuth app credentials (optional — only if you want those login methods)</li>
+  </ul>
+
+  <h2>Step 1 — Clone the repository</h2>
+  <pre><code>git clone https://github.com/sriramgopalan/opencan.git
+cd opencan</code></pre>
+
+  <h2>Step 2 — Configure environment variables</h2>
+  <pre><code>cp .env.example .env</code></pre>
+
+  <p>
+    Open <code>.env</code> and fill in the values. At minimum you need:
+  </p>
+  <ul>
+    <li><code>NEXT_PUBLIC_APP_URL</code> — the public URL of your instance (e.g. <code>https://feedback.example.com</code>)</li>
+    <li><code>AUTH_SECRET</code> — generate with <code>openssl rand -base64 32</code></li>
+    <li><code>AUTH_URL</code> — same as your app URL</li>
+    <li><code>RESEND_API_KEY</code> and <code>RESEND_FROM</code> — for email delivery</li>
+    <li><code>IP_HASH_SECRET</code> — generate with <code>openssl rand -hex 32</code></li>
+  </ul>
+
+  <p>
+    The Docker Compose file pre-configures Postgres, Redis, and MinIO with sensible defaults so you only need to set the app-level variables for a local run. See the full <a href="/docs/environment-variables">Environment Variables</a> reference.
+  </p>
+
+  <h2>Step 3 — Start the stack</h2>
+  <pre><code>docker compose up -d</code></pre>
+
+  <p>
+    This brings up four containers: <code>app</code>, <code>postgres</code>, <code>redis</code>, and <code>minio</code>. On first boot, the app container automatically runs <code>prisma migrate deploy</code> to create the database schema.
+  </p>
+
+  <h2>Step 4 — Open the app</h2>
+  <p>
+    Visit <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer">http://localhost:3000</a>. Register your first account at <code>/auth/register</code>, then follow the steps below to make it an admin.
+  </p>
+
+  <h2>First admin user</h2>
+  <p>
+    OpenCan doesn't have a setup wizard — the first user must be promoted to admin manually after registering.
+  </p>
+
+  <h3>Via SQL (fastest)</h3>
+  <pre><code>docker compose exec postgres psql -U postgres -d opencan -c \
+  "UPDATE \"User\" SET role = 'ADMIN' WHERE email = 'your@email.com';"</code></pre>
+
+  <h3>Via Prisma Studio (visual)</h3>
+  <pre><code>docker compose exec app npm run db:studio</code></pre>
+  <p>Open the <code>User</code> table, find your record, and set <code>role</code> to <code>ADMIN</code>.</p>
+
+  <h2>What's next?</h2>
+  <ul>
+    <li>Read the <a href="/docs/self-hosting">Self-hosting Guide</a> for production configuration, HTTPS, and backups</li>
+    <li>Review all <a href="/docs/environment-variables">Environment Variables</a> before deploying publicly</li>
+    <li>Star the repo on <a href="https://github.com/sriramgopalan/opencan" target="_blank" rel="noopener noreferrer">GitHub</a> if OpenCan is useful to you</li>
+  </ul>
+
+  <h2>Development setup</h2>
+  <p>
+    If you want to work on OpenCan itself (not just self-host it):
+  </p>
+
+  <pre><code>git clone https://github.com/sriramgopalan/opencan.git
+cd opencan
+npm install
+cp .env.example .env
+# fill in .env values — DATABASE_URL and REDIS_URL can point to the Docker services below
+
+docker compose up -d postgres redis minio
+
+npm run dev:setup
+# runs prisma db push then starts the Next.js dev server</code></pre>
+
+  <p>The app is available at <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer">http://localhost:3000</a>. On subsequent runs where the schema hasn't changed, <code>npm run dev</code> is sufficient.</p>
+
+  <h3>Running tests</h3>
+  <pre><code># Unit and integration tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# Coverage
+npm run test:coverage
+
+# End-to-end (requires a running app)
+npm run test:e2e
+
+# Type checking and linting
+npm run type-check
+npm run lint</code></pre>
+</DocsLayout>

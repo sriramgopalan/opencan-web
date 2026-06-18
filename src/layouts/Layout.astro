@@ -1,0 +1,92 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'OpenCan is free, open-source customer feedback management. Self-host for free, or use our managed hosting.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title === 'OpenCan' ? title : `${title} — OpenCan`}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-[#FAFAFA] text-[#111827] font-sans min-h-screen flex flex-col">
+    <header class="border-b border-gray-200 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="/" class="text-lg font-semibold tracking-tight text-[#111827] hover:opacity-80 transition-opacity">
+          OpenCan
+        </a>
+        <div class="flex items-center gap-6">
+          <a
+            href="https://github.com/sriramgopalan/opencan"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-gray-600 hover:text-[#111827] transition-colors"
+          >
+            GitHub
+          </a>
+          <a href="/docs" class="text-sm text-gray-600 hover:text-[#111827] transition-colors">
+            Docs
+          </a>
+          <a
+            href="https://demo.opencan.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm bg-[#2563EB] text-white px-3 py-1.5 rounded-md font-medium hover:bg-blue-700 transition-colors"
+          >
+            Demo
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="flex-1">
+      <slot />
+    </div>
+
+    <footer class="border-t border-gray-200 bg-white mt-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+          <p>© 2026 OpenCan</p>
+          <div class="flex items-center gap-6">
+            <a
+              href="https://github.com/sriramgopalan/opencan"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#111827] transition-colors"
+            >
+              GitHub
+            </a>
+            <a href="/docs" class="hover:text-[#111827] transition-colors">Documentation</a>
+            <a
+              href="https://demo.opencan.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#111827] transition-colors"
+            >
+              Demo
+            </a>
+          </div>
+          <p class="text-gray-400">Built with ♥ and discipline</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
