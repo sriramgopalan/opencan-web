@@ -18,7 +18,18 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title === 'OpenCan' ? title : `${title} — OpenCan`}</title>
+    <title>{title === 'OpenCan' ? 'OpenCan — Open-source customer feedback management' : `${title} — OpenCan`}</title>
+    <meta property="og:title" content="OpenCan — Open-source customer feedback management" />
+    <meta property="og:site_name" content="OpenCan" />
+    <meta property="og:image" content="https://opencan.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://opencan.dev" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenCan — Open-source customer feedback management" />
+    <meta name="twitter:description" content="Self-hosted customer feedback management. Collect feedback, prioritize features, close the loop. Free forever, AGPL-3.0." />
+    <meta name="twitter:image" content="https://opencan.dev/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
