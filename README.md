@@ -1,4 +1,5 @@
 # opencan-web
+![OpenCan](./docs/readme-banner.png)
 
 Marketing and documentation site for [OpenCan](https://github.com/sriramgopalan/opencan), built with Astro, TypeScript, and Tailwind CSS.
 
