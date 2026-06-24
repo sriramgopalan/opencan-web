@@ -30,11 +30,9 @@ nano .env   # or your editor of choice</code></pre>
 
   <p>Set every required variable. In particular:</p>
   <ul>
-    <li><code>NEXT_PUBLIC_APP_URL</code> — your public domain, e.g. <code>https://feedback.example.com</code></li>
-    <li><code>AUTH_URL</code> — same value as <code>NEXT_PUBLIC_APP_URL</code></li>
+    <li><code>AUTH_URL</code> — your public domain, e.g. <code>https://feedback.example.com</code></li>
     <li><code>AUTH_SECRET</code> — <code>openssl rand -base64 32</code></li>
     <li><code>IP_HASH_SECRET</code> — <code>openssl rand -hex 32</code></li>
-    <li><code>MINIO_USE_SSL</code> — set to <code>true</code> in production</li>
     <li><code>NODE_ENV</code> — set to <code>production</code></li>
   </ul>
 
@@ -44,7 +42,7 @@ nano .env   # or your editor of choice</code></pre>
   <pre><code>docker compose up -d</code></pre>
 
   <p>
-    Docker Compose brings up four services: <code>app</code> (Next.js), <code>postgres</code>, <code>redis</code>, and <code>minio</code>. On first boot, database migrations run automatically inside the app container.
+    Docker Compose brings up four services: <code>app</code> (Next.js), <code>postgres</code>, <code>redis</code>, and <code>minio</code>. The app container waits for Postgres to be healthy, then runs <code>prisma migrate deploy</code> via its entrypoint before starting the server.
   </p>
 
   <h3>4. Verify everything is running</h3>
@@ -126,11 +124,11 @@ mc mirror local/your-bucket-name s3/backup-bucket</code></pre>
 
   <h3>Updates</h3>
   <pre><code>git pull origin main
-docker compose pull app
+docker compose build app
 docker compose up -d app</code></pre>
 
   <p>
-    Migrations run automatically on container startup. Review the <a href="https://github.com/sriramgopalan/opencan/releases" target="_blank" rel="noopener noreferrer">release notes</a> before upgrading to catch any breaking changes.
+    The entrypoint runs <code>prisma migrate deploy</code> automatically before the server starts, so schema changes are applied on container startup. Review the <a href="https://github.com/sriramgopalan/opencan/releases" target="_blank" rel="noopener noreferrer">release notes</a> before upgrading to catch any breaking changes.
   </p>
 
   <h3>Resource limits</h3>

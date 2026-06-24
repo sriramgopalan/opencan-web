@@ -26,11 +26,6 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
         <td>Yes</td>
         <td>Set to <code>development</code> or <code>production</code>. Controls Next.js optimizations and error verbosity.</td>
       </tr>
-      <tr>
-        <td><code>NEXT_PUBLIC_APP_URL</code></td>
-        <td>Yes</td>
-        <td>Public base URL of your instance, e.g. <code>https://feedback.example.com</code>. Used to generate absolute links in emails and OAuth redirects.</td>
-      </tr>
     </tbody>
   </table>
 
@@ -109,7 +104,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
       <tr>
         <td><code>AUTH_URL</code></td>
         <td>Yes</td>
-        <td>Full URL to your deployment. Should match <code>NEXT_PUBLIC_APP_URL</code>.</td>
+        <td>Full URL to your deployment, e.g. <code>https://feedback.example.com</code>. Used by NextAuth for OAuth callback URLs.</td>
       </tr>
       <tr>
         <td><code>GOOGLE_CLIENT_ID</code></td>
@@ -159,7 +154,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 
   <h2>Object Storage (MinIO / S3-compatible)</h2>
   <p>
-    OpenCan uses MinIO (bundled in Docker Compose) for file uploads. You can substitute any S3-compatible service by pointing these variables at it.
+    MinIO is bundled in the Docker Compose stack but is not yet used by the application (file upload is a planned feature). The Docker Compose defaults work out of the box — you only need to set these variables if you replace MinIO with external S3-compatible storage.
   </p>
   <table>
     <thead>
@@ -172,33 +167,81 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
     <tbody>
       <tr>
         <td><code>MINIO_ENDPOINT</code></td>
-        <td>Yes</td>
-        <td>MinIO host. Use <code>minio</code> (the Docker service name) for the bundled stack, or your S3 endpoint hostname for external storage.</td>
+        <td>Optional</td>
+        <td>MinIO host. Defaults to <code>minio</code> (the Docker service name). Override to point at an external S3-compatible endpoint.</td>
       </tr>
       <tr>
         <td><code>MINIO_PORT</code></td>
-        <td>Yes</td>
+        <td>Optional</td>
         <td>MinIO port. Default is <code>9000</code>.</td>
       </tr>
       <tr>
         <td><code>MINIO_ACCESS_KEY</code></td>
-        <td>Yes</td>
-        <td>MinIO access key, equivalent to S3 access key ID.</td>
+        <td>Optional</td>
+        <td>MinIO access key. Defaults to <code>minioadmin</code> in the bundled stack.</td>
       </tr>
       <tr>
         <td><code>MINIO_SECRET_KEY</code></td>
-        <td>Yes</td>
-        <td>MinIO secret key, equivalent to S3 secret access key.</td>
+        <td>Optional</td>
+        <td>MinIO secret key. Defaults to <code>minioadmin</code> in the bundled stack. Change for production.</td>
       </tr>
       <tr>
         <td><code>MINIO_BUCKET_NAME</code></td>
-        <td>Yes</td>
-        <td>Name of the bucket to store uploads in. The app will attempt to create this bucket on startup if it does not exist.</td>
+        <td>Optional</td>
+        <td>Name of the bucket. Defaults to <code>opencan</code>.</td>
       </tr>
       <tr>
         <td><code>MINIO_USE_SSL</code></td>
-        <td>Yes</td>
-        <td>Set to <code>true</code> in production. Set to <code>false</code> for local MinIO without TLS.</td>
+        <td>Optional</td>
+        <td>Set to <code>true</code> when pointing at an external S3 provider with TLS. Leave unset for the bundled MinIO container.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Webhooks</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>WEBHOOK_MAX</code></td>
+        <td>Optional</td>
+        <td>Maximum number of webhook endpoints per instance. Defaults to <code>10</code>. Increase for multi-team deployments.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Embeddable Widget</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>WIDGET_JWT_SECRET</code></td>
+        <td>Optional</td>
+        <td>
+          Shared secret (minimum 32 characters) used to verify HMAC HS256 tokens issued by your host app for widget JWT auto-login.
+          Generate with: <code>openssl rand -hex 32</code>. If unset, the widget works in guest mode only.
+        </td>
+      </tr>
+      <tr>
+        <td><code>WIDGET_ALLOWED_ORIGINS</code></td>
+        <td>Optional</td>
+        <td>
+          Space-separated list of origins allowed to embed OpenCan in an iframe, set as the <code>frame-ancestors</code> CSP directive on embed routes.
+          Example: <code>https://app.example.com https://staging.example.com</code>.
+          Defaults to <code>'none'</code> (no embedding allowed) when unset.
+        </td>
       </tr>
     </tbody>
   </table>

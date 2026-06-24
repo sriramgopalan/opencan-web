@@ -30,9 +30,8 @@ cd opencan</code></pre>
     Open <code>.env</code> and fill in the values. At minimum you need:
   </p>
   <ul>
-    <li><code>NEXT_PUBLIC_APP_URL</code> — the public URL of your instance (e.g. <code>https://feedback.example.com</code>)</li>
     <li><code>AUTH_SECRET</code> — generate with <code>openssl rand -base64 32</code></li>
-    <li><code>AUTH_URL</code> — same as your app URL</li>
+    <li><code>AUTH_URL</code> — the public URL of your instance (e.g. <code>https://feedback.example.com</code>)</li>
     <li><code>RESEND_API_KEY</code> and <code>RESEND_FROM</code> — for email delivery</li>
     <li><code>IP_HASH_SECRET</code> — generate with <code>openssl rand -hex 32</code></li>
   </ul>
@@ -45,7 +44,7 @@ cd opencan</code></pre>
   <pre><code>docker compose up -d</code></pre>
 
   <p>
-    This brings up four containers: <code>app</code>, <code>postgres</code>, <code>redis</code>, and <code>minio</code>. On first boot, the app container automatically runs <code>prisma migrate deploy</code> to create the database schema.
+    This brings up four containers: <code>app</code>, <code>postgres</code>, <code>redis</code>, and <code>minio</code>. The app container waits for Postgres to be healthy, then runs <code>prisma migrate deploy</code> via its entrypoint before starting the server.
   </p>
 
   <h2>Step 4 — Open the app</h2>
