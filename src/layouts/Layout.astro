@@ -40,22 +40,99 @@ const {
   </head>
   <body class="bg-[#FAFAFA] text-[#111827] font-sans min-h-screen flex flex-col">
     <header class="border-b border-gray-200 bg-white/90 backdrop-blur-sm sticky top-0 z-50">
-      <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <img src="/opencan-logo.png" alt="" aria-hidden="true" class="h-7 w-7 object-contain" />
-          <span class="text-xl font-bold text-blue-600">OpenCan</span>
-        </a>
-        <div class="flex items-center gap-6">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <!-- Left: logo + main nav -->
+        <div class="flex items-center gap-8">
+          <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <img src="/opencan-logo.png" alt="" aria-hidden="true" class="h-7 w-7 object-contain" />
+            <span class="text-xl font-bold text-blue-600">OpenCan</span>
+          </a>
+
+          <nav class="hidden md:flex items-center gap-1">
+            <!-- Product dropdown -->
+            <div class="relative">
+              <button
+                data-dropdown-toggle="product-menu"
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="flex items-center gap-1 rounded-md px-2.5 py-2 text-sm font-medium text-gray-600 hover:text-[#111827] transition-colors"
+              >
+                Product
+                <svg class="w-3.5 h-3.5 text-gray-400 transition-transform duration-150" data-dropdown-chevron fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div id="product-menu" class="hidden absolute top-full left-0 mt-2 w-80 bg-white border border-gray-100 rounded-xl shadow-lg py-2 z-50">
+                <a href="/#boards" class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group" data-dropdown-link>
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-[#111827] group-hover:text-[#2563EB] transition-colors">Feedback Boards</p>
+                    <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Public boards with voting, post status, and guest support</p>
+                  </div>
+                </a>
+
+                <a href="/#roadmap" class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group" data-dropdown-link>
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-[#111827] group-hover:text-[#2563EB] transition-colors">Public Roadmap</p>
+                    <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">A shareable /roadmap page that groups posts by status</p>
+                  </div>
+                </a>
+
+                <a href="/#changelog" class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group" data-dropdown-link>
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-[#111827] group-hover:text-[#2563EB] transition-colors">Changelog</p>
+                    <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Publish dated release notes and notify voters by email</p>
+                  </div>
+                </a>
+
+                <a href="/#widget" class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group" data-dropdown-link>
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-[#111827] group-hover:text-[#2563EB] transition-colors">In-App Widget</p>
+                    <p class="text-xs text-gray-500 mt-0.5 leading-relaxed">Floating feedback button embeddable on any page via a single script tag</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <a href="/pricing" class="rounded-md px-2.5 py-2 text-sm font-medium text-gray-600 hover:text-[#111827] transition-colors">
+              Pricing
+            </a>
+
+            <a href="/docs" class="rounded-md px-2.5 py-2 text-sm font-medium text-gray-600 hover:text-[#111827] transition-colors">
+              Docs
+            </a>
+          </nav>
+        </div>
+
+        <!-- Right: GitHub + Demo -->
+        <div class="flex items-center gap-3">
           <a
             href="https://github.com/sriramgopalan/opencan"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-sm text-gray-600 hover:text-[#111827] transition-colors"
+            class="hidden sm:block text-sm text-gray-600 hover:text-[#111827] transition-colors"
           >
             GitHub
-          </a>
-          <a href="/docs" class="text-sm text-gray-600 hover:text-[#111827] transition-colors">
-            Docs
           </a>
           <a
             href="https://demo.opencan.dev"
@@ -66,7 +143,7 @@ const {
             Demo
           </a>
         </div>
-      </nav>
+      </div>
     </header>
 
     <div class="flex-1">
@@ -100,5 +177,42 @@ const {
         </div>
       </div>
     </footer>
+    <script>
+      const toggles = document.querySelectorAll('[data-dropdown-toggle]');
+
+      function closeAll() {
+        toggles.forEach(btn => {
+          btn.setAttribute('aria-expanded', 'false');
+          const chevron = btn.querySelector('[data-dropdown-chevron]');
+          if (chevron) chevron.style.transform = '';
+          const panel = document.getElementById(btn.getAttribute('data-dropdown-toggle')!);
+          panel?.classList.add('hidden');
+        });
+      }
+
+      toggles.forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const panelId = btn.getAttribute('data-dropdown-toggle');
+          const panel = document.getElementById(panelId!);
+          const isOpen = btn.getAttribute('aria-expanded') === 'true';
+          closeAll();
+          if (!isOpen) {
+            btn.setAttribute('aria-expanded', 'true');
+            const chevron = btn.querySelector('[data-dropdown-chevron]');
+            if (chevron) (chevron as HTMLElement).style.transform = 'rotate(180deg)';
+            panel?.classList.remove('hidden');
+          }
+        });
+      });
+
+      document.addEventListener('click', closeAll);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+      // Close dropdown when a dropdown link is followed (for same-page hash links)
+      document.querySelectorAll('[data-dropdown-link]').forEach(link => {
+        link.addEventListener('click', closeAll);
+      });
+    </script>
   </body>
 </html>
