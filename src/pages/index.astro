@@ -456,9 +456,14 @@ import Layout from '../layouts/Layout.astro';
   <script>
     const landingForm = document.getElementById('landing-notify-form') as HTMLFormElement | null;
     const landingSuccess = document.getElementById('landing-notify-success');
-    // Wire this up to your email collection service (Resend, Formspree, etc.)
-    landingForm?.addEventListener('submit', e => {
+    landingForm?.addEventListener('submit', async e => {
       e.preventDefault();
+      const email = (document.getElementById('landing-notify-email') as HTMLInputElement).value;
+      await fetch('https://formspree.io/f/mnjkbnnn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
       landingForm.classList.add('hidden');
       landingSuccess?.classList.remove('hidden');
     });

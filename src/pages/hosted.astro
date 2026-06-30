@@ -96,9 +96,14 @@ import Layout from '../layouts/Layout.astro';
   <script>
     const form = document.getElementById('hosted-form') as HTMLFormElement | null;
     const success = document.getElementById('hosted-success');
-    // Wire this up to your email collection service (Resend, Formspree, etc.)
-    form?.addEventListener('submit', e => {
+    form?.addEventListener('submit', async e => {
       e.preventDefault();
+      const email = (document.getElementById('hosted-email') as HTMLInputElement).value;
+      await fetch('https://formspree.io/f/mnjkbnnn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
       form.classList.add('hidden');
       success?.classList.remove('hidden');
     });
